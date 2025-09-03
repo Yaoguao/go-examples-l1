@@ -20,7 +20,7 @@ import (
 Программа должна принимать параметром количество воркеров и при старте создавать указанное число горутин-воркеров.
 */
 
-func worker(wg sync.WaitGroup, ch chan int) {
+func worker(wg *sync.WaitGroup, ch chan int) {
 	defer wg.Done()
 	for v := range ch {
 		fmt.Println(v)
@@ -36,7 +36,7 @@ func worker(wg sync.WaitGroup, ch chan int) {
 //
 //	for i := 0; i < cg; i++ {
 //		wg.Add(1)
-//		go worker(wg, ch)
+//		go worker(&wg, ch)
 //	}
 //
 //	ctx, cancel := context.WithCancel(context.Background())
@@ -64,7 +64,7 @@ func worker(wg sync.WaitGroup, ch chan int) {
 //}
 
 // если прям следовать заданию, то по условиям, ЗАПИСЬ осуществляется в главной горутине,
-// ну это если я правильно понял, хотя мне вариант сверху больше нравиться
+// ну это если я правильно понял, хотя мне вариант сверху больше нравиться(в данном контексте)
 
 func main() {
 	var cg int
@@ -75,13 +75,13 @@ func main() {
 
 	for i := 0; i < cg; i++ {
 		wg.Add(1)
-		go worker(wg, ch)
+		go worker(&wg, ch)
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	go func() {
 		sigCh := make(chan os.Signal, 1)
-		signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
+		signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
 		<-sigCh
 		cancel()
 	}()
