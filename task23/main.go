@@ -12,6 +12,7 @@ import "fmt"
 (copy(slice[i:], slice[i+1:])) и уменьшить длину слайса на 1.
 
 */
+
 //	V1
 /*
 func RemoveAtIndex(s []int, index int) []int {
@@ -26,9 +27,7 @@ func RemoveAtIndex(s []int, index int) []int {
 }
 */
 
-//	V2
-//
-// Можно и так
+// V2
 func RemoveAtIndexV2(s []int, index int) []int {
 	if index < 0 || len(s) <= index {
 		return s
@@ -36,16 +35,12 @@ func RemoveAtIndexV2(s []int, index int) []int {
 	return append(s[:index], s[index+1:]...)
 }
 
-// Написал 2 функции
 func main() {
 	sl := []int{1, 2, 3, 4}
 
 	fmt.Println(sl) // [1, 2, 3, 4]
 
-	// В таком случае лучше как и с append возвращать тому слайсу в котором удаляем
-	tmp := RemoveAtIndexV2(sl, 3)
+	sl = RemoveAtIndexV2(sl, 1)
 
-	tmp[0] = 33
-
-	fmt.Println(sl) // [33, 2, 3, 4]
+	fmt.Println(sl) // [1, 3, 4]
 }
