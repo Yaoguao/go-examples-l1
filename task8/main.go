@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-//	Task 8
+//	TASK 8
 
 /*
 Установка бита в числе
